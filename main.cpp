@@ -10,8 +10,8 @@ using namespace std;
 #ifndef _MENU_
 #define _MENU_
 
-//#define COSMIC_LATTE COLOR(255, 248, 231)
-#define WX 800
+#define blue COLOR(20, 5, 35)
+#define WX 1200
 #define WY 600
 
 #endif
@@ -63,7 +63,7 @@ void read_file()
 int main()
 {
    initwindow(WX, WY, "Планетарная система", 200, 200);
-   setbkcolor(COLOR(255, 248, 231));
+   setbkcolor(blue);
    clearviewport();
    //swapbuffers();
    read_file();

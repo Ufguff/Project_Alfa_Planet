@@ -1,0 +1,14 @@
+#
+!main.cpp cmath fstream graphics.h iostream string vector #<#>
+WX #<main.cpp>
+WY #<main.cpp>
+all_planets : vector #<main.cpp>
+blue #<main.cpp>
+main() -> int #<main.cpp>
+planet _type_ #<main.cpp>
+read_file() -> void #<main.cpp>
+	planet::ID : int #<main.cpp>
+	planet::BASEID : int #<main.cpp>
+	planet::R_RAD : int #<main.cpp>
+	planet::ORB_RAD : int #<main.cpp>
+	planet::SPEED : double #<main.cpp>
