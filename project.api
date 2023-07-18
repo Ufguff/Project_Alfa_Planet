@@ -1,14 +1,16 @@
 #
-!main.cpp cmath fstream graphics.h iostream string vector #<#>
+!main.cpp cctype cerrno clocale cmath cstdint cstdio cstdlib ctype.h cwchar cwctype errno.h exception fstream graphics.h initializer_list ios iosfwd iostream istream keys_n_colors.h limits limits.h locale.h math.h new ostream signal.h stddef.h stdexcept stdint.h stdio.h stdlib.h streambuf string string_view system_error type_traits typeinfo utility vector wchar.h wctype.h #<#>
 WX #<main.cpp>
 WY #<main.cpp>
 all_planets : vector #<main.cpp>
 blue #<main.cpp>
 main() -> int #<main.cpp>
 planet _type_ #<main.cpp>
+put_planets() -> void #<main.cpp>
 read_file() -> void #<main.cpp>
 	planet::ID : int #<main.cpp>
 	planet::BASEID : int #<main.cpp>
 	planet::R_RAD : int #<main.cpp>
 	planet::ORB_RAD : int #<main.cpp>
 	planet::SPEED : double #<main.cpp>
+	planet::bmp : IMAGE* #<main.cpp>

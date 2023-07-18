@@ -12,7 +12,7 @@ using namespace std;
 
 #define blue COLOR(20, 5, 35)
 #define WX 1200
-#define WY 600
+#define WY 700
 
 #endif
 
@@ -22,6 +22,7 @@ typedef struct planet{
    int ID, BASEID;
    int R_RAD, ORB_RAD;
    double SPEED;
+   IMAGE * bmp;
 }Planet;
 
 vector<Planet> all_planets;
@@ -44,7 +45,7 @@ void read_file()
          }
          planet temp;
          if(out.size() == 2){
-            temp.ID = stoi(out[0]);        temp.BASEID = stoi(out[1]);
+            temp.ID = stoi(out[0]);        temp.R_RAD = stoi(out[1]);
          }
          else{
             temp.ID = stoi(out[0]);
@@ -60,13 +61,27 @@ void read_file()
    }
 }
 
+void put_planets()
+{
+   for (int i = 0; i < all_planets.size(); i++){
+      IMAGE * bmp = loadBMP("./Pic_Plan/planet.bmp");
+      bmp = imageresize(bmp, all_planets[i].R_RAD * 2, all_planets[i].R_RAD * 2, COLORONCOLOR_RESIZE);
+       all_planets[i].bmp = bmp;
+      if (all_planets[i].ID == 0 )      putimage(WX / 2 - all_planets[i].R_RAD, WY / 2 - all_planets[i].R_RAD, all_planets[i].bmp, TRANSPARENT_PUT);
+      else      putimage(WX / 2 - all_planets[i].R_RAD + all_planets[i].ORB_RAD, WY / 2 - all_planets[i].R_RAD, all_planets[i].bmp, TRANSPARENT_PUT);
+   }
+   
+}
+
 int main()
 {
    initwindow(WX, WY, "Планетарная система", 200, 200);
+   read_file();
    setbkcolor(blue);
    clearviewport();
    //swapbuffers();
-   read_file();
+   //putimage(WX / 2, WY / 2, all_planets[0].bmp, TRANSPARENT_PUT);
+   put_planets();
    while(true);
    return 0;
 }
