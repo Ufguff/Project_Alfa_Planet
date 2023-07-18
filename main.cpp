@@ -42,28 +42,13 @@ int main()
    put_planets();
    while(true){
       move_planet();
-      //delay(100);
-      //clearviewport();
+      delay(10);
    }
    return 0;
 }
 
 void move_planet()
 {
-   /*
-   for (int i = 1; i < all_planets.size(); i++){ 
-      setACPage();
-      for (int j = 0; j < all_planets.size(); j++){
-         if (i == j) {change_dir(j);   continue;}
-         
-         putimage(all_planets[i].X , all_planets[i].Y, all_planets[i].bmp, TRANSPARENT_PUT);
-         //delay(1000);
-      }
-      setVSPage();
-   }
-   */
-   //setVSPage();
-   
    putimage(all_planets[0].X , all_planets[0].Y, all_planets[0].bmp, TRANSPARENT_PUT);
    for (int i = 1; i < all_planets.size(); i++) {change_dir(i);}
    swapbuffers();
@@ -73,13 +58,14 @@ void move_planet()
 
 void change_dir(int index)
 {
-   int x0 = WX / 2, y0 = WY / 2; // начальные координаты точки
-   int a = all_planets[index].ORB_RAD, b = 100 + all_planets[index].P_RAD; // полуоси эллипса
+   int x0 = WX / 2 - all_planets[0].P_RAD, y0 = WY / 2 - all_planets[0].P_RAD; // начальные координаты точки
+   int a = all_planets[index].ORB_RAD + all_planets[0].P_RAD ;
+   int b = a - all_planets[index].P_RAD; // полуоси эллипса
    double dt = 0.01; // начальный параметр и шаг
-   double v = 100; // скорость перемещения
-   // вычисление новых координат точки по формулам эллипса
-   int x = x0 + round(a * cos(all_planets[index].t));
-   int y = y0 + round(b * sin(all_planets[index].t));
+   double v = all_planets[index].SPEED; 
+
+   int x = v + x0 + round(a * cos(all_planets[index].t));
+   int y = v + y0 + round(b * sin(all_planets[index].t));
    all_planets[index].X = x;    all_planets[index].Y = y;
    // отображение точки на экране
 
@@ -92,10 +78,10 @@ void change_dir(int index)
    //setVSPage();
    
    putimage(all_planets[index].X , all_planets[index].Y, all_planets[index].bmp, TRANSPARENT_PUT);
-   swapbuffers();
+   //swapbuffers();
    //setACPage();
    
-   delay(10); // задержка для плавного перемещения точки
+                                                                                             //  delay(10); // задержка для плавного перемещения точки
    //cleardevice(); // очистка экрана
 }
 
@@ -134,7 +120,7 @@ void read_file()
 
 void put_planets()
 {
-   setACPage();
+   //setACPage();
    for (int i = 0; i < all_planets.size(); i++){
       int k;
       IMAGE * bmp = loadBMP("./Pic_Plan/planet.bmp");
@@ -155,7 +141,8 @@ void put_planets()
       }
       putimage(all_planets[i].X, all_planets[i].Y, all_planets[i].bmp, TRANSPARENT_PUT);
    }
-   setVSPage();
+   //setVSPage();
+   swapbuffers();
 }
 
 void setACPage()
