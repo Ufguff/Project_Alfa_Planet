@@ -13,59 +13,54 @@ using namespace std;
 #define blue COLOR(20, 5, 35)
 #define WX 1200
 #define WY 700
-
+#define M_PI 3.141592653589793
 #endif
-
-
+int currentPage = 0;
 
 typedef struct planet{
-   int ID, BASEID;
-   int R_RAD, ORB_RAD;
-   double SPEED;
+   int ID, BASEID, X, Y;
+   int P_RAD, ORB_RAD;
+   double SPEED, t;
    IMAGE * bmp;
 }Planet;
 
 vector<Planet> all_planets;
 
+void read_file();
+void put_planets();
+void move_planet();
+void setACPage();
+void setVSPage();
+void change_dir(int index);
 
-
-void read_file()
+int main()
 {
-   string s;
-   ifstream F("pl.txt");
-   if (F.is_open()){
-      while(getline(F, s))     // игнорит пока double
-      {
-         vector<string> out;
-         stringstream ss(s);
-         string word;
-         while (ss >> word) {
-            cout << word << endl;
-            out.push_back(word);
-         }
-         planet temp;
-         if(out.size() == 2){
-            temp.ID = stoi(out[0]);        temp.R_RAD = stoi(out[1]);
-         }
-         else{
-            temp.ID = stoi(out[0]);
-            temp.BASEID = stoi(out[1]); 
-            temp.R_RAD = stoi(out[2]);
-            temp.ORB_RAD = stoi(out[3]);
-            temp.SPEED = stod(out[4]);
-            cout << "------------------" << temp.SPEED << endl;
-         }
-         all_planets.push_back(temp);
-      }
-   F.close();
+   initwindow(WX, WY, "Планетарная система", 200, 200, true);
+   read_file();
+   setbkcolor(blue);
+   clearviewport();
+   put_planets();
+   while(true){
+      move_planet();
+      //delay(100);
+      clearviewport();
    }
+   return 0;
 }
 
-void put_planets()
+void move_planet()
 {
-   for (int i = 0; i < all_planets.size(); i++){
-      IMAGE bmp = loadBMP("./Pic_Plan/base_planet.gif");
-      bmp = imageresize(bmp, all_planets[i].R_RAD * 2, all_planets[i].R_RAD * 2, COLORONCOLOR_RESIZE);
-       all_planets[i].bmp = bmp;
-      if (all_planets[i].ID == 0 )      putimage(WX / 2 - all_planets[i].R_RAD, WY / 2 - all_planets[i].R_RAD, all_planets[i].bmp, TRANSPARENT_PUT);
-      else      putimage(WX / 2 - all_planets[i].R_RAD + _abracadabra_cast(all_planets[i]);
+   /*
+   for (int i = 1; i < all_planets.size(); i++){ 
+      setACPage();
+      for (int j = 0; j < all_planets.size(); j++){
+         if (i == j) {change_dir(j);   continue;}
+         
+         putimage(all_planets[i].X , all_planets[i].Y, all_planets[i].bmp, TRANSPARENT_PUT);
+         //delay(1000);
+      }
+      setVSPage();
+   }
+   */
+   putimage(all_planets[0].X , all_planets[0].Y, all_planets[0].bmp, TRANSPARENT_PUT);
+   for (int i = 1; i < _abracadabra_cast(all_planets);

@@ -13,21 +13,91 @@ using namespace std;
 #define blue COLOR(20, 5, 35)
 #define WX 1200
 #define WY 700
-
+#define M_PI 3.141592653589793
 #endif
-
-
+int currentPage = 0;
 
 typedef struct planet{
-   int ID, BASEID;
-   int R_RAD, ORB_RAD;
-   double SPEED;
+   int ID, BASEID, X, Y;
+   int P_RAD, ORB_RAD;
+   double SPEED, t;
    IMAGE * bmp;
 }Planet;
 
 vector<Planet> all_planets;
 
+void read_file();
+void put_planets();
+void move_planet();
+void setACPage();
+void setVSPage();
+void change_dir(int index);
 
+int main()
+{
+   initwindow(WX, WY, "Планетарная система", 200, 200, true);
+   read_file();
+   setbkcolor(blue);
+   clearviewport();
+   put_planets();
+   while(true){
+      move_planet();
+      //delay(100);
+      //clearviewport();
+   }
+   return 0;
+}
+
+void move_planet()
+{
+   /*
+   for (int i = 1; i < all_planets.size(); i++){ 
+      setACPage();
+      for (int j = 0; j < all_planets.size(); j++){
+         if (i == j) {change_dir(j);   continue;}
+         
+         putimage(all_planets[i].X , all_planets[i].Y, all_planets[i].bmp, TRANSPARENT_PUT);
+         //delay(1000);
+      }
+      setVSPage();
+   }
+   */
+   //setVSPage();
+   
+   putimage(all_planets[0].X , all_planets[0].Y, all_planets[0].bmp, TRANSPARENT_PUT);
+   for (int i = 1; i < all_planets.size(); i++) {change_dir(i);}
+   swapbuffers();
+   //setACPage();
+   clearviewport();
+}
+
+void change_dir(int index)
+{
+   int x0 = WX / 2, y0 = WY / 2; // начальные координаты точки
+   int a = all_planets[index].ORB_RAD, b = 100 + all_planets[index].P_RAD; // полуоси эллипса
+   double dt = 0.01; // начальный параметр и шаг
+   double v = 100; // скорость перемещения
+   // вычисление новых координат точки по формулам эллипса
+   int x = x0 + round(a * cos(all_planets[index].t));
+   int y = y0 + round(b * sin(all_planets[index].t));
+   all_planets[index].X = x;    all_planets[index].Y = y;
+   // отображение точки на экране
+
+   // увеличение значения параметра t на шаг dt
+   all_planets[index].t += dt;
+
+   // если значение параметра t превышает 2?, то вернуть его к начальному значению t0
+   if (all_planets[index].t > 2 * M_PI)
+      all_planets[index].t -= 2 * M_PI;
+   //setVSPage();
+   
+   putimage(all_planets[index].X , all_planets[index].Y, all_planets[index].bmp, TRANSPARENT_PUT);
+   swapbuffers();
+   //setACPage();
+   
+   delay(10); // задержка для плавного перемещения точки
+   //cleardevice(); // очистка экрана
+}
 
 void read_file()
 {
@@ -45,16 +115,17 @@ void read_file()
          }
          planet temp;
          if(out.size() == 2){
-            temp.ID = stoi(out[0]);        temp.R_RAD = stoi(out[1]);
+            temp.ID = stoi(out[0]);        temp.P_RAD = stoi(out[1]);
          }
          else{
             temp.ID = stoi(out[0]);
             temp.BASEID = stoi(out[1]); 
-            temp.R_RAD = stoi(out[2]);
+            temp.P_RAD = stoi(out[2]);
             temp.ORB_RAD = stoi(out[3]);
             temp.SPEED = stod(out[4]);
             cout << "------------------" << temp.SPEED << endl;
          }
+         temp.t = 0;
          all_planets.push_back(temp);
       }
    F.close();
@@ -63,25 +134,35 @@ void read_file()
 
 void put_planets()
 {
+   setACPage();
    for (int i = 0; i < all_planets.size(); i++){
+      int k;
       IMAGE * bmp = loadBMP("./Pic_Plan/planet.bmp");
-      bmp = imageresize(bmp, all_planets[i].R_RAD * 2, all_planets[i].R_RAD * 2, COLORONCOLOR_RESIZE);
-       all_planets[i].bmp = bmp;
-      if (all_planets[i].ID == 0 )      putimage(WX / 2 - all_planets[i].R_RAD, WY / 2 - all_planets[i].R_RAD, all_planets[i].bmp, TRANSPARENT_PUT);
-      else      putimage(WX / 2 - all_planets[i].R_RAD + all_planets[i].ORB_RAD, WY / 2 - all_planets[i].R_RAD, all_planets[i].bmp, TRANSPARENT_PUT);
+      bmp = imageresize(bmp, all_planets[i].P_RAD * 2, all_planets[i].P_RAD * 2, COLORONCOLOR_RESIZE);
+      all_planets[i].bmp = bmp;
+      
+      if (all_planets[i].ID == 0 )      {
+         all_planets[i].X = WX / 2 - all_planets[i].P_RAD;      all_planets[i].Y = WY / 2 - all_planets[i].P_RAD;
+      }
+      else{
+         if (all_planets[i].BASEID == 0){
+            all_planets[i].X = WX / 2 - all_planets[i].P_RAD + all_planets[i].ORB_RAD;      all_planets[i].Y = WY / 2 - all_planets[i].P_RAD;
+         }
+         else{
+            k = all_planets[i].BASEID;
+            all_planets[i].X = WX / 2 + all_planets[k].P_RAD + 10 + all_planets[k].ORB_RAD;      all_planets[i].Y = WY / 2 - all_planets[k].P_RAD - 10;
+         }
+      }
+      putimage(all_planets[i].X, all_planets[i].Y, all_planets[i].bmp, TRANSPARENT_PUT);
    }
-   
+   setVSPage();
 }
 
-int main()
+void setACPage()
 {
-   initwindow(WX, WY, "Планетарная система", 200, 200);
-   read_file();
-   setbkcolor(blue);
-   clearviewport();
-   //swapbuffers();
-   //putimage(WX / 2, WY / 2, all_planets[0].bmp, TRANSPARENT_PUT);
-   put_planets();
-   while(true);
-   return 0;
+   if(currentPage == 3)        currentPage = 0;
+   currentPage++;
+   setactivepage(currentPage);
 }
+
+void setVSPage(){       setvisualpage(currentPage);     }
