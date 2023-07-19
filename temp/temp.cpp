@@ -70,16 +70,24 @@ void move_planet()
 
 void change_dir(int index)
 {
-   int a = all_planets[index].ORB_RAD + all_planets[0].P_RAD ;
-   int b = a;
-   
+   int k, x, y;
    double dt = 0.01;
-   double v = all_planets[index].SPEED; 
-
-   ellipse(WX / 2, WY / 2, 0, 360, a, b);
-   
-   int x = WX / 2 - all_planets[index].P_RAD + round(a * cos(all_planets[index].t));
-   int y = WY / 2 - all_planets[index].P_RAD + round(b * sin(all_planets[index].t));
+   double v = all_planets[index].SPEED;
+   if (all_planets[index].BASEID != 0){
+      k = all_planets[index].BASEID;
+      int a = all_planets[index].ORB_RAD + all_planets[k].P_RAD, b = a;
+      int xe = all_planets[k].X + all_planets[k].P_RAD;
+      int ye = all_planets[k].Y + all_planets[k].P_RAD;
+      ellipse(xe, ye, 0, 360, a, b);
+      x = xe - all_planets[index].P_RAD + round(a * cos(all_planets[index].t));
+      y = ye / 2 - all_planets[index].P_RAD + round(b * sin(all_planets[index].t));
+   }
+   else{
+      int a = all_planets[index].ORB_RAD, b = a;
+      ellipse(WX / 2, WY / 2, 0, 360, a, b);
+      x = WX / 2 - all_planets[index].P_RAD + round(a * cos(all_planets[index].t));
+      y = WY / 2 - all_planets[index].P_RAD + round(b * sin(all_planets[index].t));
+   }
    all_planets[index].X = x;    all_planets[index].Y = y;
 
    all_planets[index].t += dt;
@@ -126,6 +134,28 @@ void read_file()
 void put_planets()
 {
    char s[30];
-   int n;
+   int n, k;
+   IMAGE * bmp;
    for (int i = 0; i < all_planets.size(); i++){
-      if (_abracadabra_cast(all_planets[i]);
+      if (all_planets[i].ID != 0){
+         n = rand() % 14 + 1;
+         cout << n << endl;
+         sprintf(s, "./Pic_Plan/planet%d.bmp", n);
+         cout << s << endl;
+         bmp = loadBMP(s);
+      }
+      else      {bmp = loadBMP("./Pic_Plan/planet0.bmp");}
+      
+      bmp = imageresize(bmp, all_planets[i].P_RAD * 2, all_planets[i].P_RAD * 2, COLORONCOLOR_RESIZE);
+      all_planets[i].bmp = bmp;
+      
+      if (all_planets[i].ID == 0 )      {
+         all_planets[i].X = WX / 2 - all_planets[i].P_RAD;      all_planets[i].Y = WY / 2 - all_planets[i].P_RAD;
+      }
+      else{
+         if (all_planets[i].BASEID == 0){
+            all_planets[i].X = WX / 2 - all_planets[i].P_RAD + all_planets[i].ORB_RAD;      all_planets[i].Y = WY / 2 - all_planets[i].P_RAD;
+         }
+         else{
+            k = all_planets[i].BASEID;
+            all_planets[i].X = all_planets[k].X + all_planets[k].P_RAD + _abracadabra_cast(all_planets[i]);
