@@ -90,7 +90,7 @@ void change_dir(int index)
    }
    all_planets[index].X = x;    all_planets[index].Y = y;
 
-   all_planets[index].t += dt;
+   all_planets[index].t += dt * v;
 
    if (all_planets[index].t > 2 * M_PI)
       all_planets[index].t -= 2 * M_PI;
