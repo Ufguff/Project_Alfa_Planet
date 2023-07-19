@@ -43,7 +43,6 @@ int main()
    while(true){
       move_planet();
       delay(10);
-      //clearviewport();
    }
    return 0;
 }
@@ -59,8 +58,6 @@ void move_planet()
 
 void change_dir(int index)
 {
-   int x0 = WX / 2, y0 = WY / 2; // начальные координаты точки
+   //int x0 = WX / 2 - all_planets[index].P_RAD, y0 = WY / 2 - all_planets[index].P_RAD; // начальные координаты точки
    int a = all_planets[index].ORB_RAD + all_planets[0].P_RAD ;
-   int b = a - all_planets[index].P_RAD; // полуоси эллипса
-   double dt = 0.01; // начальный параметр и шаг
-   double v = _abracadabra_cast(all_planets[i]);
+   int b = floor(_abracadabra_cast(all_planets[index]);

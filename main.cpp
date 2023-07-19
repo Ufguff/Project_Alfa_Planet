@@ -37,7 +37,7 @@ int main()
 {
    initwindow(WX, WY, "Планетарная система", 200, 200, true);
    read_file();
-   setbkcolor(blue);
+   setbkcolor(BLACK);
    clearviewport();
    put_planets();
    while(true){
@@ -50,39 +50,31 @@ int main()
 void move_planet()
 {
    putimage(all_planets[0].X , all_planets[0].Y, all_planets[0].bmp, TRANSPARENT_PUT);
-   for (int i = 1; i < all_planets.size(); i++) {change_dir(i);}
+   for (int i = all_planets.size() - 1; i >= 1 ; i--) {change_dir(i);}
    swapbuffers();
-   //setACPage();
    clearviewport();
 }
 
 void change_dir(int index)
 {
-   int x0 = WX / 2 - all_planets[index].P_RAD, y0 = WY / 2 - all_planets[index].P_RAD; // начальные координаты точки
    int a = all_planets[index].ORB_RAD + all_planets[0].P_RAD ;
-   int b = a - all_planets[index].P_RAD; // полуоси эллипса
-   double dt = 0.01; // начальный параметр и шаг
+   int b = a;
+   
+   double dt = 0.01;
    double v = all_planets[index].SPEED; 
 
-   int x = v + x0 + round(a * cos(all_planets[index].t));
-   int y = v + y0 + round(b * sin(all_planets[index].t));
+   ellipse(WX / 2, WY / 2, 0, 360, a, b);
+   
+   int x = WX / 2 - all_planets[index].P_RAD + round(a * cos(all_planets[index].t));
+   int y = WY / 2 - all_planets[index].P_RAD + round(b * sin(all_planets[index].t));
    all_planets[index].X = x;    all_planets[index].Y = y;
-   // отображение точки на экране
 
-   // увеличение значения параметра t на шаг dt
    all_planets[index].t += dt;
 
-   // если значение параметра t превышает 2?, то вернуть его к начальному значению t0
    if (all_planets[index].t > 2 * M_PI)
       all_planets[index].t -= 2 * M_PI;
-   //setVSPage();
    
    putimage(all_planets[index].X , all_planets[index].Y, all_planets[index].bmp, TRANSPARENT_PUT);
-   //swapbuffers();
-   //setACPage();
-   
-                                                                                             //  delay(10); // задержка для плавного перемещения точки
-   //cleardevice(); // очистка экрана
 }
 
 void read_file()
