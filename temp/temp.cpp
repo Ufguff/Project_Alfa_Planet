@@ -80,7 +80,7 @@ void change_dir(int index)
       int ye = all_planets[k].Y + all_planets[k].P_RAD;
       ellipse(xe, ye, 0, 360, a, b);
       x = xe - all_planets[index].P_RAD + round(a * cos(all_planets[index].t));
-      y = ye / 2 - all_planets[index].P_RAD + round(b * sin(all_planets[index].t));
+      y = ye - all_planets[index].P_RAD + round(b * sin(all_planets[index].t));
    }
    else{
       int a = all_planets[index].ORB_RAD, b = a;
@@ -90,72 +90,4 @@ void change_dir(int index)
    }
    all_planets[index].X = x;    all_planets[index].Y = y;
 
-   all_planets[index].t += dt;
-
-   if (all_planets[index].t > 2 * M_PI)
-      all_planets[index].t -= 2 * M_PI;
-   
-   putimage(all_planets[index].X , all_planets[index].Y, all_planets[index].bmp, TRANSPARENT_PUT);
-}
-
-void read_file()
-{
-   string s;
-   ifstream F("pl.txt");
-   if (F.is_open()){
-      while(getline(F, s))     // игнорит пока double
-      {
-         vector<string> out;
-         stringstream ss(s);
-         string word;
-         while (ss >> word) {
-            cout << word << endl;
-            out.push_back(word);
-         }
-         planet temp;
-         if(out.size() == 2){
-            temp.ID = stoi(out[0]);        temp.P_RAD = stoi(out[1]);
-         }
-         else{
-            temp.ID = stoi(out[0]);
-            temp.BASEID = stoi(out[1]); 
-            temp.P_RAD = stoi(out[2]);
-            temp.ORB_RAD = stoi(out[3]);
-            temp.SPEED = stod(out[4]);
-            cout << "------------------" << temp.SPEED << endl;
-         }
-         temp.t = 0;
-         all_planets.push_back(temp);
-      }
-   F.close();
-   }
-}
-
-void put_planets()
-{
-   char s[30];
-   int n, k;
-   IMAGE * bmp;
-   for (int i = 0; i < all_planets.size(); i++){
-      if (all_planets[i].ID != 0){
-         n = rand() % 14 + 1;
-         cout << n << endl;
-         sprintf(s, "./Pic_Plan/planet%d.bmp", n);
-         cout << s << endl;
-         bmp = loadBMP(s);
-      }
-      else      {bmp = loadBMP("./Pic_Plan/planet0.bmp");}
-      
-      bmp = imageresize(bmp, all_planets[i].P_RAD * 2, all_planets[i].P_RAD * 2, COLORONCOLOR_RESIZE);
-      all_planets[i].bmp = bmp;
-      
-      if (all_planets[i].ID == 0 )      {
-         all_planets[i].X = WX / 2 - all_planets[i].P_RAD;      all_planets[i].Y = WY / 2 - all_planets[i].P_RAD;
-      }
-      else{
-         if (all_planets[i].BASEID == 0){
-            all_planets[i].X = WX / 2 - all_planets[i].P_RAD + all_planets[i].ORB_RAD;      all_planets[i].Y = WY / 2 - all_planets[i].P_RAD;
-         }
-         else{
-            k = all_planets[i].BASEID;
-            all_planets[i].X = all_planets[k].X + all_planets[k].P_RAD + _abracadabra_cast(all_planets[i]);
+   all_planets[index].t += dt * (v / _abracadabra_cast(all_planets[index]);
