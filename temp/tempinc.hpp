@@ -5,4 +5,7 @@ int _abracadabra_cast(_abracadabra_type);
 #include <vector>
 #include <string>
 #include <cmath>
+#include <ctime>
+#include <random>
+#include "stars.h"
 #include "graphics.h"

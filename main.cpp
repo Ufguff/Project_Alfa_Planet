@@ -126,14 +126,19 @@ void read_file()
 void put_planets()
 {
    char s[30];
-   int n;
+   int n, k;
+   IMAGE * bmp;
    for (int i = 0; i < all_planets.size(); i++){
-      n = rand() % 10;
-      cout << n << endl;
-      sprintf(s, "./Pic_Plan/planet%d.bmp", n);
-      cout << s << endl;
-      int k;
-      IMAGE * bmp = loadBMP(s);
+      if (all_planets[i].ID != 0){
+         n = rand() % 10;
+         cout << n << endl;
+         sprintf(s, "./Pic_Plan/planet%d.bmp", n);
+         cout << s << endl;
+         bmp = loadBMP(s);
+      }
+      else      {bmp = loadBMP("./Pic_Plan/planet0.bmp");}
+      
+      //IMAGE * bmp = loadBMP("./Pic_Plan/Sun.bmp");
       bmp = imageresize(bmp, all_planets[i].P_RAD * 2, all_planets[i].P_RAD * 2, COLORONCOLOR_RESIZE);
       all_planets[i].bmp = bmp;
       
