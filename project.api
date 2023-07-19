@@ -1,5 +1,5 @@
 # stars.h
-!main.cpp cctype cerrno clocale cmath cstdint cstdio cstdlib ctype.h cwchar cwctype errno.h exception fstream graphics.h initializer_list ios iosfwd iostream istream keys_n_colors.h limits limits.h locale.h math.h new ostream signal.h stars.h stddef.h stdexcept stdint.h stdio.h stdlib.h streambuf string string_view system_error type_traits typeinfo utility vector wchar.h wctype.h #<#>
+!main.cpp cctype cerrno clocale cmath cstdint cstdio cstdlib ctime ctype.h cwchar cwctype errno.h exception fstream graphics.h initializer_list ios iosfwd iostream istream keys_n_colors.h limits limits.h locale.h math.h new numeric ostream random signal.h stars.h stddef.h stdexcept stdint.h stdio.h stdlib.h streambuf string string_view system_error time.h type_traits typeinfo utility vector wchar.h wctype.h #<#>
 !stars.cpp ctime graphics.h keys_n_colors.h stars.h time.h #<#>
  struct@remember _type_ #<stars.h>
 M_PI #<main.cpp>

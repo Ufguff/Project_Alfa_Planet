@@ -3,7 +3,8 @@
 #include <vector>
 #include <string>
 #include <cmath>
-
+#include <ctime>
+#include <random>
 #include "stars.h"
 
 #include "graphics.h"
@@ -19,7 +20,10 @@ using namespace std;
 #define col_stars 150
 #define M_PI 3.141592653589793
 #endif
+
 int currentPage = 0;
+
+
 
 typedef struct planet{
    int ID, BASEID, X, Y;
@@ -41,6 +45,7 @@ extern remember stars_rem[col_stars];
 
 int main()
 {
+   srand(time(NULL));
    initwindow(WX, WY, "Планетарная система", 200, 200, true);
    read_file();
    setbkcolor(BLACK);
@@ -120,10 +125,15 @@ void read_file()
 
 void put_planets()
 {
-   //setACPage();
+   char s[30];
+   int n;
    for (int i = 0; i < all_planets.size(); i++){
+      n = rand() % 10;
+      cout << n << endl;
+      sprintf(s, "./Pic_Plan/planet%d.bmp", n);
+      cout << s << endl;
       int k;
-      IMAGE * bmp = loadBMP("./Pic_Plan/Planet1.bmp");
+      IMAGE * bmp = loadBMP(s);
       bmp = imageresize(bmp, all_planets[i].P_RAD * 2, all_planets[i].P_RAD * 2, COLORONCOLOR_RESIZE);
       all_planets[i].bmp = bmp;
       
@@ -141,15 +151,5 @@ void put_planets()
       }
       putimage(all_planets[i].X, all_planets[i].Y, all_planets[i].bmp, TRANSPARENT_PUT);
    }
-   //setVSPage();
    swapbuffers();
 }
-
-void setACPage()
-{
-   if(currentPage == 3)        currentPage = 0;
-   currentPage++;
-   setactivepage(currentPage);
-}
-
-void setVSPage(){       setvisualpage(currentPage);     }
