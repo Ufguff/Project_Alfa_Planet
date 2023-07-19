@@ -123,7 +123,7 @@ void put_planets()
    //setACPage();
    for (int i = 0; i < all_planets.size(); i++){
       int k;
-      IMAGE * bmp = loadBMP("./Pic_Plan/planet.bmp");
+      IMAGE * bmp = loadBMP("./Pic_Plan/Planet1.bmp");
       bmp = imageresize(bmp, all_planets[i].P_RAD * 2, all_planets[i].P_RAD * 2, COLORONCOLOR_RESIZE);
       all_planets[i].bmp = bmp;
       
