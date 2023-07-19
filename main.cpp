@@ -3,6 +3,9 @@
 #include <vector>
 #include <string>
 #include <cmath>
+
+#include "stars.h"
+
 #include "graphics.h"
 using namespace std;
 
@@ -13,6 +16,7 @@ using namespace std;
 #define blue COLOR(20, 5, 35)
 #define WX 1200
 #define WY 700
+#define col_stars 150
 #define M_PI 3.141592653589793
 #endif
 int currentPage = 0;
@@ -33,14 +37,18 @@ void setACPage();
 void setVSPage();
 void change_dir(int index);
 
+extern remember stars_rem[col_stars];
+
 int main()
 {
    initwindow(WX, WY, "Планетарная система", 200, 200, true);
    read_file();
    setbkcolor(BLACK);
    clearviewport();
+   stars();
    put_planets();
    while(true){
+      stars_for_main();
       move_planet();
       delay(10);
    }
