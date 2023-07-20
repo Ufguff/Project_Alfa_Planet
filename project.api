@@ -1,5 +1,5 @@
 # stars.h
-!main.cpp cctype cerrno clocale cmath cstdint cstdio cstdlib ctime ctype.h cwchar cwctype errno.h exception fstream graphics.h initializer_list ios iosfwd iostream istream keys_n_colors.h limits limits.h locale.h math.h new numeric ostream random signal.h stars.h stddef.h stdexcept stdint.h stdio.h stdlib.h streambuf string string_view system_error time.h type_traits typeinfo utility vector wchar.h wctype.h #<#>
+!main.cpp algorithm cctype cerrno clocale cmath cstdint cstdio cstdlib ctime ctype.h cwchar cwctype errno.h exception fstream graphics.h initializer_list ios iosfwd iostream istream keys_n_colors.h limits limits.h locale.h math.h new numeric ostream random signal.h stars.h stddef.h stdexcept stdint.h stdio.h stdlib.h streambuf string string_view system_error time.h type_traits typeinfo utility vector wchar.h wctype.h #<#>
 !stars.cpp ctime graphics.h keys_n_colors.h stars.h time.h #<#>
  struct@remember _type_ #<stars.h>
 M_PI #<main.cpp>
@@ -10,6 +10,7 @@ blue #<main.cpp>
 change_dir(int index) -> void #<main.cpp>
 col_stars #<main.cpp>
 colors : int[] #<stars.cpp>
+count_st : int #<stars.cpp>
 currentPage : int #<main.cpp>
 main() -> int #<main.cpp>
 move_planet() -> void #<main.cpp>
@@ -18,7 +19,6 @@ put_planets() -> void #<main.cpp>
 rast_stars(int i) -> void #<stars.h>
 read_file() -> void #<main.cpp>
 remember _type_ #<stars.h>
-scol_bar(int col, int col_help) -> void #<stars.h>
 setACPage() -> void #<main.cpp>
 setVSPage() -> void #<main.cpp>
 stars() -> void #<stars.h>
@@ -33,6 +33,6 @@ stars_rem : remember[] #<main.cpp>
 	planet::SPEED : double #<main.cpp>
 	planet::t : double #<main.cpp>
 	planet::bmp : IMAGE* #<main.cpp>
-	remember::ir : int #<stars.h>
-	remember::jr : int #<stars.h>
+	remember::x : int #<stars.h>
+	remember::y : int #<stars.h>
 	remember::col : int #<stars.h>

@@ -4,6 +4,7 @@
 #include <string>
 #include <cmath>
 #include <ctime>
+#include <algorithm>
 #include <random>
 #include "stars.h"
 
@@ -114,12 +115,12 @@ void read_file()
          }
          planet temp;
          if(out.size() == 2){
-            temp.ID = stoi(out[0]);        temp.P_RAD = stoi(out[1]);
+            temp.ID = stoi(out[0]);        temp.P_RAD = stoi(out[1]) / 3 ;
          }
          else{
             temp.ID = stoi(out[0]);
             temp.BASEID = stoi(out[1]); 
-            temp.P_RAD = stoi(out[2]);
+            temp.P_RAD = stoi(out[2]) / 3;
             temp.ORB_RAD = stoi(out[3]);
             temp.SPEED = stod(out[4]);
             cout << "------------------" << temp.SPEED << endl;
@@ -133,18 +134,21 @@ void read_file()
 
 void put_planets()
 {
+   vector<int> pics;
+   for (int i = 1; i <= 30; i++)        pics.push_back(i);
    char s[30];
    int n, k;
    IMAGE * bmp;
    for (int i = 0; i < all_planets.size(); i++){
       if (all_planets[i].ID != 0){
-         n = rand() % 14 + 1;
-         cout << n << endl;
-         sprintf(s, "./Pic_Plan/planet%d.bmp", n);
+         random_shuffle(pics.begin(), pics.end());
+         n = pics[0];
+         //cout << n << endl;
+         sprintf(s, "./Pic_Plan/Planet%d.bmp", n);
          cout << s << endl;
          bmp = loadBMP(s);
       }
-      else      {bmp = loadBMP("./Pic_Plan/planet0.bmp");}
+      else      {bmp = loadBMP("./Pic_Plan/Planet0.bmp");}
       
       bmp = imageresize(bmp, all_planets[i].P_RAD * 2, all_planets[i].P_RAD * 2, COLORONCOLOR_RESIZE);
       all_planets[i].bmp = bmp;
