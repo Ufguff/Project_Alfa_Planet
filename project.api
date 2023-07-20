@@ -6,12 +6,22 @@ WY #<main.cpp>
 all_planets : vector #<main.cpp>
 blue #<main.cpp>
 change_dir(int index) -> void #<main.cpp>
+<<<<<<< Updated upstream
+=======
+col_stars #<main.cpp>
+colors : int[] #<stars.cpp>
+count_st : int #<stars.cpp>
+>>>>>>> Stashed changes
 currentPage : int #<main.cpp>
 main() -> int #<main.cpp>
 move_planet() -> void #<main.cpp>
 planet _type_ #<main.cpp>
 put_planets() -> void #<main.cpp>
 read_file() -> void #<main.cpp>
+<<<<<<< Updated upstream
+=======
+remember _type_ #<stars.h>
+>>>>>>> Stashed changes
 setACPage() -> void #<main.cpp>
 setVSPage() -> void #<main.cpp>
 	planet::ID : int #<main.cpp>
@@ -23,3 +33,9 @@ setVSPage() -> void #<main.cpp>
 	planet::SPEED : double #<main.cpp>
 	planet::t : double #<main.cpp>
 	planet::bmp : IMAGE* #<main.cpp>
+<<<<<<< Updated upstream
+=======
+	remember::x : int #<stars.h>
+	remember::y : int #<stars.h>
+	remember::col : int #<stars.h>
+>>>>>>> Stashed changes
