@@ -22,9 +22,8 @@ using namespace std;
 #define M_PI 3.141592653589793
 #endif
 
-int currentPage = 0;
-
-
+double scale = 1.0;
+int offx = 0, offy = 0;
 
 typedef struct planet{
    int ID, BASEID, X, Y;
@@ -63,7 +62,8 @@ int main()
 
 void move_planet()
 {
-   putimage(all_planets[0].X , all_planets[0].Y, all_planets[0].bmp, TRANSPARENT_PUT);
+   putimage((all_planets[0].X - offx)*scale, (all_planets[0].Y - offy)*scale, all_planets[0].bmp, TRANSPARENT_PUT, 2 * all_planets[0].P_RAD * scale);
+   //putimage(all_planets[0].X , all_planets[0].Y, all_planets[0].bmp, TRANSPARENT_PUT);
    for (int i = all_planets.size() - 1; i >= 1 ; i--) {change_dir(i);}
    swapbuffers();
    clearviewport();
@@ -79,13 +79,13 @@ void change_dir(int index)
       int a = all_planets[index].ORB_RAD + all_planets[k].P_RAD, b = a;
       int xe = all_planets[k].X + all_planets[k].P_RAD;
       int ye = all_planets[k].Y + all_planets[k].P_RAD;
-      ellipse(xe, ye, 0, 360, a, b);
+      ellipse(xe * scale, ye * scale, 0, 360, a * scale, b * scale);
       x = xe - all_planets[index].P_RAD + round(a * cos(all_planets[index].t));
       y = ye - all_planets[index].P_RAD + round(b * sin(all_planets[index].t));
    }
    else{
       int a = all_planets[index].ORB_RAD, b = a;
-      ellipse(WX / 2, WY / 2, 0, 360, a, b);
+      ellipse(WX / 2 * scale, WY / 2 * scale, 0, 360, a * scale, b * scale);
       x = WX / 2 - all_planets[index].P_RAD + round(a * cos(all_planets[index].t));
       y = WY / 2 - all_planets[index].P_RAD + round(b * sin(all_planets[index].t));
    }
@@ -96,7 +96,9 @@ void change_dir(int index)
    if (all_planets[index].t > 2 * M_PI)
       all_planets[index].t -= 2 * M_PI;
    
-   putimage(all_planets[index].X , all_planets[index].Y, all_planets[index].bmp, TRANSPARENT_PUT);
+   putimage((all_planets[index].X - offx)*scale, (all_planets[index].Y - offy)*scale, all_planets[index].bmp, TRANSPARENT_PUT, 2 * all_planets[index].P_RAD * scale);
+   
+   //putimage(all_planets[index].X , all_planets[index].Y, all_planets[index].bmp, TRANSPARENT_PUT);
 }
 
 void read_file()

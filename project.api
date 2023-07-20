@@ -11,28 +11,20 @@ change_dir(int index) -> void #<main.cpp>
 col_stars #<main.cpp>
 colors : int[] #<stars.cpp>
 count_st : int #<stars.cpp>
-currentPage : int #<main.cpp>
 main() -> int #<main.cpp>
 move_planet() -> void #<main.cpp>
-planet _type_ #<main.cpp>
+offx : int #<main.cpp>
+planet : intoffy=0;typedef struct #<main.cpp>
 put_planets() -> void #<main.cpp>
 rast_stars(int i) -> void #<stars.h>
 read_file() -> void #<main.cpp>
 remember _type_ #<stars.h>
+scale : double #<main.cpp>
 setACPage() -> void #<main.cpp>
 setVSPage() -> void #<main.cpp>
 stars() -> void #<stars.h>
 stars_for_main() -> void #<stars.h>
 stars_rem : remember[] #<main.cpp>
-	planet::ID : int #<main.cpp>
-	planet::BASEID : int #<main.cpp>
-	planet::X : int #<main.cpp>
-	planet::Y : int #<main.cpp>
-	planet::P_RAD : int #<main.cpp>
-	planet::ORB_RAD : int #<main.cpp>
-	planet::SPEED : double #<main.cpp>
-	planet::t : double #<main.cpp>
-	planet::bmp : IMAGE* #<main.cpp>
 	remember::x : int #<stars.h>
 	remember::y : int #<stars.h>
 	remember::col : int #<stars.h>
