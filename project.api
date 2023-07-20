@@ -1,4 +1,4 @@
-# stars.h
+# movement.h stars.h
 !main.cpp algorithm cctype cerrno clocale cmath cstdint cstdio cstdlib ctime ctype.h cwchar cwctype errno.h exception fstream graphics.h initializer_list ios iosfwd iostream istream keys_n_colors.h limits limits.h locale.h math.h new numeric ostream random signal.h stars.h stddef.h stdexcept stdint.h stdio.h stdlib.h streambuf string string_view system_error time.h type_traits typeinfo utility vector wchar.h wctype.h #<#>
 !stars.cpp ctime graphics.h keys_n_colors.h stars.h time.h #<#>
  struct@remember _type_ #<stars.h>
@@ -10,11 +10,12 @@ blue #<main.cpp>
 change_dir(int index) -> void #<main.cpp>
 col_stars #<main.cpp>
 colors : int[] #<stars.cpp>
+comet(double p, double e, double phi) -> void #<main.cpp>
+cometa : planet #<main.cpp>
 count_st : int #<stars.cpp>
 main() -> int #<main.cpp>
 move_planet() -> void #<main.cpp>
-offx : int #<main.cpp>
-planet : intoffy=0;typedef struct #<main.cpp>
+planet : doublescalen=1.0;double offx=0, offy=0, offxn=0, offyn=0;typedef struct #<main.cpp>
 put_planets() -> void #<main.cpp>
 rast_stars(int i) -> void #<stars.h>
 read_file() -> void #<main.cpp>
@@ -25,6 +26,7 @@ setVSPage() -> void #<main.cpp>
 stars() -> void #<stars.h>
 stars_for_main() -> void #<stars.h>
 stars_rem : remember[] #<main.cpp>
+wheelhandler(int x, int y) -> void #<main.cpp>
 	remember::x : int #<stars.h>
 	remember::y : int #<stars.h>
 	remember::col : int #<stars.h>

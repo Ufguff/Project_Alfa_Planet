@@ -33,6 +33,7 @@ typedef struct planet{
 }Planet;
 
 vector<Planet> all_planets;
+planet cometa;
 
 void read_file();
 void put_planets();
@@ -40,6 +41,8 @@ void move_planet();
 void setACPage();
 void setVSPage();
 void change_dir(int index);
+void comet(double p, double e, double phi);
+
 extern remember stars_rem[col_stars];
 
 void wheelhandler(int x, int y)
@@ -78,6 +81,8 @@ void move_planet()
 {
    putimage((all_planets[0].X - offxn)*scalen, (all_planets[0].Y - offyn)*scalen, all_planets[0].bmp, TRANSPARENT_PUT, 2 * all_planets[0].P_RAD * scalen);
    for (int i = all_planets.size() - 1; i >= 1 ; i--) {change_dir(i);}
+   comet(80, 0.5, 1);
+   comet(60, 0.5, 0.1);
    swapbuffers();
    clearviewport();
 }
@@ -89,18 +94,18 @@ void change_dir(int index)
    double v = all_planets[index].SPEED;
    if (all_planets[index].BASEID != 0){
       k = all_planets[index].BASEID;
-      int a = all_planets[index].ORB_RAD + all_planets[k].P_RAD, b = a;
+      int r = all_planets[index].ORB_RAD + all_planets[k].P_RAD;
       int xe = all_planets[k].X + all_planets[k].P_RAD;
       int ye = all_planets[k].Y + all_planets[k].P_RAD;
-      ellipse((xe - offxn) * scalen, (ye - offyn) * scalen, 0, 360, a * scalen, b * scalen);
-      x = xe - all_planets[index].P_RAD + round(a * cos(all_planets[index].t));
-      y = ye - all_planets[index].P_RAD + round(b * sin(all_planets[index].t));
+      circle((xe - offxn) * scalen, (ye - offyn) * scalen, r * scalen);
+      x = xe - all_planets[index].P_RAD + round(r * cos(all_planets[index].t));
+      y = ye - all_planets[index].P_RAD + round(r * sin(all_planets[index].t));
    }
    else{
-      int a = all_planets[index].ORB_RAD, b = a;
-      ellipse((WX / 2 - offxn) * scalen, (WY / 2 - offyn) * scalen, 0, 360, a * scalen, b * scalen);
-      x = WX / 2 - all_planets[index].P_RAD + round(a * cos(all_planets[index].t));
-      y = WY / 2 - all_planets[index].P_RAD + round(b * sin(all_planets[index].t));
+      int r = all_planets[index].ORB_RAD;
+      circle((WX / 2 - offxn) * scalen, (WY / 2 - offyn) * scalen, r * scalen);
+      x = WX / 2 - all_planets[index].P_RAD + round(r * cos(all_planets[index].t));
+      y = WY / 2 - all_planets[index].P_RAD + round(r * sin(all_planets[index].t));
    }
    all_planets[index].X = x;    all_planets[index].Y = y;
 
@@ -145,20 +150,34 @@ void read_file()
    }
 }
 
+void comet(double p, double e, double phi){
+   double angle = cometa.t;
+   double r=p/(1-e*cos(angle+phi));
+   
+    for(double angle = 0;angle<acos(-1)*2;angle+=0.01)
+    {
+       double r=p/(1-e*cos(angle+phi));
+       putpixel((r*cos(angle)+WX/2 - offxn) * scalen , (r*sin(angle)+WY/2 - offyn) * scalen, WHITE);
+    }
+    
+   putimage((r*cos(angle)+WX/2 - offxn - 5) * scalen, (r*sin(angle)+WY/2 - offyn - 5) * scalen, cometa.bmp, TRANSPARENT_PUT, 10 * scalen);
+   cometa.t += 0.01;
+}
+
 void put_planets()
 {
    vector<int> pics;
    for (int i = 1; i <= 30; i++)        pics.push_back(i);
+   random_shuffle(pics.begin(), pics.end());
    char s[30];
    int n, k;
    IMAGE * bmp;
+   bmp = loadBMP("./Pic_Plan/comet.bmp");
+   cometa.bmp = imageresize(bmp, 10, 10, COLORONCOLOR_RESIZE);
    for (int i = 0; i < all_planets.size(); i++){
       if (all_planets[i].ID != 0){
-         random_shuffle(pics.begin(), pics.end());
-         n = pics[0];
-         //cout << n << endl;
+         n = pics[i];
          sprintf(s, "./Pic_Plan/Planet%d.bmp", n);
-         cout << s << endl;
          bmp = loadBMP(s);
       }
       else      {bmp = loadBMP("./Pic_Plan/Planet0.bmp");}
