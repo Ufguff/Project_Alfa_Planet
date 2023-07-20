@@ -23,7 +23,7 @@ void stars() { // изначальная случайная расстановк
 }
 
 void stars_for_main() { // закрашивание случайных звёзд и отрисовка новых на смену закрашенным
-   if (count_st == 45) {
+   if (count_st == 40) {
       int col_help = rand() % col_stars;
       rast_stars(col_help);
       count_st = 0;
