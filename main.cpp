@@ -22,8 +22,8 @@ using namespace std;
 #define M_PI 3.141592653589793
 #endif
 
-double scale = 1.0;
-int offx = 0, offy = 0;
+double scale = 1.0, scalen = 1.0;
+double offx = 0, offy = 0, offxn = 0, offyn = 0;
 
 typedef struct planet{
    int ID, BASEID, X, Y;
@@ -40,13 +40,26 @@ void move_planet();
 void setACPage();
 void setVSPage();
 void change_dir(int index);
-
 extern remember stars_rem[col_stars];
+
+void wheelhandler(int x, int y)
+{
+   double grmin = 0.4, grmax = 15;
+   double xa,ya;
+   xa=mousex()/scale+offx;
+   ya=mousey()/scale+offy;   
+   if(x<0 && scale * 0.9 > grmin)      scale*=0.9;     // вверх.
+   else if (x > 0 && scale / 0.9 < grmax)         scale/=0.9;     // вниз
+   cout << scale << endl;
+   offx=-mousex()/scale+xa;
+   offy=-mousey()/scale+ya;
+}
 
 int main()
 {
    srand(time(NULL));
    initwindow(WX, WY, "Планетарная система", 200, 200, true);
+   registermousehandler(WM_MOUSEWHEEL,wheelhandler);
    read_file();
    setbkcolor(BLACK);
    clearviewport();
@@ -55,6 +68,7 @@ int main()
    while(true){
       stars_for_main();
       move_planet();
+      scalen = scale;   offxn = offx; offyn = offy;
       delay(10);
    }
    return 0;
@@ -62,8 +76,7 @@ int main()
 
 void move_planet()
 {
-   putimage((all_planets[0].X - offx)*scale, (all_planets[0].Y - offy)*scale, all_planets[0].bmp, TRANSPARENT_PUT, 2 * all_planets[0].P_RAD * scale);
-   //putimage(all_planets[0].X , all_planets[0].Y, all_planets[0].bmp, TRANSPARENT_PUT);
+   putimage((all_planets[0].X - offxn)*scalen, (all_planets[0].Y - offyn)*scalen, all_planets[0].bmp, TRANSPARENT_PUT, 2 * all_planets[0].P_RAD * scalen);
    for (int i = all_planets.size() - 1; i >= 1 ; i--) {change_dir(i);}
    swapbuffers();
    clearviewport();
@@ -79,13 +92,13 @@ void change_dir(int index)
       int a = all_planets[index].ORB_RAD + all_planets[k].P_RAD, b = a;
       int xe = all_planets[k].X + all_planets[k].P_RAD;
       int ye = all_planets[k].Y + all_planets[k].P_RAD;
-      ellipse(xe * scale, ye * scale, 0, 360, a * scale, b * scale);
+      ellipse((xe - offxn) * scalen, (ye - offyn) * scalen, 0, 360, a * scalen, b * scalen);
       x = xe - all_planets[index].P_RAD + round(a * cos(all_planets[index].t));
       y = ye - all_planets[index].P_RAD + round(b * sin(all_planets[index].t));
    }
    else{
       int a = all_planets[index].ORB_RAD, b = a;
-      ellipse(WX / 2 * scale, WY / 2 * scale, 0, 360, a * scale, b * scale);
+      ellipse((WX / 2 - offxn) * scalen, (WY / 2 - offyn) * scalen, 0, 360, a * scalen, b * scalen);
       x = WX / 2 - all_planets[index].P_RAD + round(a * cos(all_planets[index].t));
       y = WY / 2 - all_planets[index].P_RAD + round(b * sin(all_planets[index].t));
    }
@@ -96,9 +109,7 @@ void change_dir(int index)
    if (all_planets[index].t > 2 * M_PI)
       all_planets[index].t -= 2 * M_PI;
    
-   putimage((all_planets[index].X - offx)*scale, (all_planets[index].Y - offy)*scale, all_planets[index].bmp, TRANSPARENT_PUT, 2 * all_planets[index].P_RAD * scale);
-   
-   //putimage(all_planets[index].X , all_planets[index].Y, all_planets[index].bmp, TRANSPARENT_PUT);
+   putimage((all_planets[index].X - offxn)*scalen, (all_planets[index].Y - offyn)*scalen, all_planets[index].bmp, TRANSPARENT_PUT, 2 * all_planets[index].P_RAD * scalen);
 }
 
 void read_file()
@@ -106,7 +117,7 @@ void read_file()
    string s;
    ifstream F("pl.txt");
    if (F.is_open()){
-      while(getline(F, s))     // игнорит пока double
+      while(getline(F, s))
       {
          vector<string> out;
          stringstream ss(s);
